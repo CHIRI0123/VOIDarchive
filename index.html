@@ -94,7 +94,7 @@
             transition: all 0.15s ease-in-out;
         }
         .card-shadow:hover {
-            box-shadow: 6px 6px 0px #F26B21;
+            box-shadow: 6px 6px 0pxv;
             transform: translateY(-2px);
         }
 
@@ -130,11 +130,14 @@
             <div class="bg-archive-text text-archive-yellowBg px-3 py-1 font-mono text-xs font-bold tracking-widest border border-archive-text">
                 CoC 6th SCENARIO
             </div>
-            <div class="flex items-center gap-4 text-xs font-bold">
-                <button onclick="scrollToArchive()" class="px-4 py-2 bg-archive-card border-2 border-archive-text hover:bg-archive-orange hover:text-white transition-colors shadow-[2px_2px_0px_#1B2A4A]">
-                    ARCHIVE INDEX <i class="fa-solid fa-arrow-down ml-1"></i>
+            <div class="flex items-center gap-3 font-mono font-bold text-xs">
+                <button onclick="switchView('archive')" id="nav-archive" class="px-4 py-2 bg-archive-orange text-white border-2 border-archive-text shadow-[2px_2px_0px_#1B2A4A] transition-all">
+                    ARCHIVE INDEX
                 </button>
-            </div>
+                <button onclick="switchView('character')" id="nav-character" class="px-4 py-2 bg-archive-card border-2 border-archive-text hover:bg-archive-orange hover:text-white transition-all shadow-[2px_2px_0px_#1B2A4A]">
+                    CHARACTER PROFILES
+                </button>
+</div>
         </div>
         <!-- Center Trailer Illustration Overlay (Pure CSS/SVG Buildings + Logo) -->
        
@@ -177,7 +180,119 @@
             <span>HO1 / HO2 / HO3 / HO4</span>
         </div>
     </section>
+    <!-- ==================== CHARACTER / HO SECTION ==================== -->
+     <!-- ==================== CHARACTER SHOWCASE VIEW ==================== -->
 
+    <!-- ==================== CHARACTER SHOWCASE VIEW ==================== -->
+<!-- ==================== CHARACTER SHOWCASE VIEW ==================== -->
+<section id="characterView" class="hidden min-h-screen bg-archive-bg py-12 px-4 sm:px-6 lg:px-8 border-b-4 border-archive-text">
+    <div class="max-w-7xl mx-auto">
+
+        <!-- 1. HOタブ切り替え -->
+        <div class="flex justify-center gap-2 sm:gap-4 mb-8 flex-wrap">
+            <button onclick="selectHo('ho1')" id="ho-tab-ho1" class="ho-tab-btn px-6 py-2.5 font-mono font-black text-sm border-2 border-archive-text bg-archive-card text-archive-text hover:bg-archive-orange hover:text-white shadow-[3px_3px_0px_#1B2A4A] transition-all">
+                HO1 / 西綺戸
+            </button>
+            <button onclick="selectHo('ho2')" id="ho-tab-ho2" class="ho-tab-btn px-6 py-2.5 font-mono font-black text-sm border-2 border-archive-text bg-archive-card text-archive-text hover:bg-archive-orange hover:text-white shadow-[3px_3px_0px_#1B2A4A] transition-all">
+                HO2 / 雅
+            </button>
+            <button onclick="selectHo('ho3')" id="ho-tab-ho3" class="ho-tab-btn px-6 py-2.5 font-mono font-black text-sm border-2 border-archive-text bg-archive-card text-archive-text hover:bg-archive-orange hover:text-white shadow-[3px_3px_0px_#1B2A4A] transition-all">
+                HO3 / 穂志
+            </button>
+            <button onclick="selectHo('ho4')" id="ho-tab-ho4" class="ho-tab-btn px-6 py-2.5 font-mono font-black text-sm border-2 border-archive-text bg-archive-card text-archive-text hover:bg-archive-orange hover:text-white shadow-[3px_3px_0px_#1B2A4A] transition-all">
+                HO4 / ハル
+            </button>
+        </div>
+
+        <!-- 2. キャラクター詳細表示エリア -->
+        <div id="characterDisplay" class="relative border-4 border-archive-text p-6 sm:p-10 shadow-[8px_8px_0px_#1B2A4A] overflow-hidden min-h-[650px] transition-colors duration-500">
+            
+            <!-- 背景デカ文字装飾 -->
+            <div id="bgWatermark" class="absolute right-4 bottom-0 text-9xl sm:text-[200px] font-black text-archive-text/10 select-none pointer-events-none font-mono leading-none">
+                HO1
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center relative z-10">
+                
+                <!-- 【左】：プロフィール・ステータス詳細（5列分） -->
+                <div class="lg:col-span-5 flex flex-col justify-between space-y-6">
+                    <div>
+                        <!-- HOバッジ ＆ 肩書き -->
+                        <div class="flex items-center gap-3 mb-2">
+                            <span id="charHoBadge" class="bg-archive-text text-archive-yellowBg font-mono text-xs font-black px-3 py-1 border border-archive-text">
+                                HO1
+                            </span>
+                            <span id="charRole" class="text-xs font-mono font-bold text-archive-orange tracking-widest uppercase">
+                                新米刑事 / 刑事
+                            </span>
+                        </div>
+
+                        <!-- キャラクター名 ＋ PL名（隣に小さく表示） -->
+                        <div class="flex items-baseline gap-3 flex-wrap mb-4">
+                            <h2 id="charName" class="text-3xl sm:text-4xl font-black text-archive-text tracking-tight">
+                                西綺戸 彩葉
+                            </h2>
+                            <span class="text-sm font-mono font-bold text-archive-subtext">
+                                (PL: <span id="charPl">零</span>)
+                            </span>
+                        </div>
+                        
+                        <!-- ハンドアウト概要説明 -->
+                        <div class="bg-white/80 backdrop-blur-sm p-4 border-2 border-archive-text mb-6 shadow-[2px_2px_0px_#1B2A4A]">
+                            <p id="charDescription" class="text-xs sm:text-sm text-archive-text leading-relaxed font-bold">
+                                貴方は今年刑事になったばかりの新人だ。この若さでの抜擢は異例である。
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- プロフィール一覧 -->
+                    <div class="space-y-1.5 border-t-2 border-archive-text/20 pt-4 text-xs font-mono bg-white/50 p-4 border border-archive-text/30 rounded">
+                        <div class="flex justify-between border-b border-archive-text/10 pb-1">
+                            <span class="text-archive-subtext font-bold">[ STATUS ]</span>
+                            <span class="font-bold text-archive-orange">ACTIVE</span>
+                        </div>
+                        <div class="flex justify-between border-b border-archive-text/10 pb-1">
+                            <span class="text-archive-subtext font-bold">[ 年齢 ]</span>
+                            <span id="charAge" class="font-bold text-archive-text">22歳</span>
+                        </div>
+                        <div class="flex justify-between border-b border-archive-text/10 pb-1">
+                            <span class="text-archive-subtext font-bold">[ 身長 ]</span>
+                            <span id="charHeight" class="font-bold text-archive-text">165cm</span>
+                        </div>
+                        <div class="flex justify-between border-b border-archive-text/10 pb-1">
+                            <span class="text-archive-subtext font-bold">[ 誕生日 ]</span>
+                            <span id="charBirthday" class="font-bold text-archive-text">4月15日</span>
+                        </div>
+                        <div class="flex justify-between border-b border-archive-text/10 pb-1">
+                            <span class="text-archive-subtext font-bold">[ 血液型 ]</span>
+                            <span id="charBlood" class="font-bold text-archive-text">A型</span>
+                        </div>
+                        <div class="flex justify-between pb-1">
+                            <span class="text-archive-subtext font-bold">[ 好きな物 ]</span>
+                            <span id="charFood" class="font-bold text-archive-text">ドーナツ</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 【中央】：全身立ち絵（4列分） -->
+                <div class="lg:col-span-4 flex justify-center items-end h-[480px] sm:h-[580px] relative">
+                    <img id="charFullImg" src="./images/ho1_full.png" alt="Full Character" class="h-full w-auto object-contain drop-shadow-[0_15px_15px_rgba(0,0,0,0.3)] transition-all duration-300">
+                </div>
+
+                <!-- 【右】：立ち絵寄りの縦書きセリフ（3列分） -->
+                <div class="lg:col-span-3 flex justify-start lg:justify-center items-center h-full">
+                    <div class="relative py-4">
+                        <p id="charQuote" class="text-2xl sm:text-3xl font-black text-archive-text [writing-mode:vertical-rl] tracking-widest border-r-4 border-archive-orange pr-4 max-h-[420px] leading-relaxed drop-shadow-sm">
+                            事件解決は僕に任せてください！
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
     <!-- ==================== MAIN ARCHIVE SECTION ==================== -->
 
     <!-- HEADER / NAVIGATION BAR -->
@@ -1182,7 +1297,133 @@
             downloadAnchor.click();
             downloadAnchor.remove();
         }
+        // キャラクター情報データ
+        // キャラクター情報データ（bgColorにイメージカラーのカラーコードを設定）
+const characterData = {
+    ho1: {
+        ho: 'HO1',
+        role: '新米刑事 / 刑事',
+        name: '西綺戸 彩葉',
+        desc: '貴方は今年刑事になったばかりの新人だ。この若さでの抜擢は異例である。',
+        pl: '零',
+        age: '22歳',
+        height: '165cm',
+        birthday: '10月27日',
+        blood: 'A型',
+        food: 'オムライス',
+        quote: '事件解決は私に任せてください！',
+        bgColor: '#38B6FF', // HO1背景色（淡いオレンジ）
+        fullImg: './images/ho1.png'
+    },
+    ho2: {
+        ho: 'HO2',
+        role: '新型アンドロイド / 刑事',
+        name: '雅 / BR800',
+        desc: '貴方はHO1のパートナーロボットだ。最新型の機能が揃えられている。',
+        pl: 'つぼみ',
+        age: '稼働1年',
+        height: '150cm',
+        birthday: '11月1日',
+        blood: 'なし',
+        food: '犬',
+        quote: '命令を可及的速やかに実行します。',
+        bgColor: '#D82A58', // HO2背景色（淡いブルー）
+        fullImg: './images/ho2.png'
+    },
+    ho3: {
+        ho: 'HO3',
+        role: '30代刑事 / 刑事',
+        name: '穂志 三鷹',
+        desc: '貴方は他の課から移動してきた刑事だ。今まであらゆる事件を解決してきたことだろう。',
+        pl: 'ちり',
+        age: '37歳',
+        height: '180cm',
+        birthday: '11月11日',
+        blood: 'O型',
+        food: 'ウイスキー,コーヒー',
+        quote: '俺たちのやり方で行こう。',
+        bgColor: '#4A2E69', // HO3背景色（淡いグリーン）
+        fullImg: './images/ho3.png'
+    },
+    ho4: {
+        ho: 'HO4',
+        role: '旧型アンドロイド / 刑事',
+        name: 'ハル / X000',
+        desc: '貴方はHO3のパートナーロボットだ。HO3を信頼し、アンドロイドとしてサポートをしてきた。',
+        pl: 'ranmmaru',
+        age: '稼働5年',
+        height: '183cm',
+        birthday: '3月3日',
+        blood: 'なし',
+        food: '冷却水',
+        quote: 'スーパーマカセロリ状態',
+        bgColor: '#F26B21', // HO4背景色オレンジ）
+        fullImg: './images/ho4.jpg'
+    }
+};
+
+// メイン・キャラクター画面切替
+function switchView(viewName) {
+    const archiveSec = document.getElementById('archive');
+    const charSec = document.getElementById('characterView');
+    
+    if (viewName === 'character') {
+        if(archiveSec) archiveSec.classList.add('hidden');
+        if(charSec) charSec.classList.remove('hidden');
+        selectHo('ho1'); // キャラクター画面を開いた時にHO1を初期選択
+    } else {
+        if(archiveSec) archiveSec.classList.remove('hidden');
+        if(charSec) charSec.classList.add('hidden');
+    }
+}
+
+// HO1〜HO4 切り替え関数
+function selectHo(hoKey) {
+    const data = characterData[hoKey];
+    if (!data) return;
+
+    // 1. テキストデータの更新
+    document.getElementById('charHoBadge').innerText = data.ho;
+    document.getElementById('charRole').innerText = data.role;
+    document.getElementById('charName').innerText = data.name;
+    document.getElementById('charDescription').innerText = data.desc;
+    document.getElementById('charPl').innerText = data.pl;
+    document.getElementById('charAge').innerText = data.age;
+    document.getElementById('charHeight').innerText = data.height;
+    document.getElementById('charBirthday').innerText = data.birthday;
+    document.getElementById('charBlood').innerText = data.blood;
+    document.getElementById('charFood').innerText = data.food;
+    document.getElementById('charQuote').innerText = data.quote;
+    document.getElementById('bgWatermark').innerText = data.ho;
+
+    // 2. 画像の更新
+    document.getElementById('charFullImg').src = data.fullImg;
+
+    // 3. 背景色の変更（`style.backgroundColor` を直接書き換え）
+    const displayBox = document.getElementById('characterDisplay');
+    if (displayBox && data.bgColor) {
+        displayBox.style.backgroundColor = data.bgColor;
+    }
+
+    // 4. ボタンの選択状態（オレンジ色）切り替え
+    document.querySelectorAll('.ho-tab-btn').forEach(btn => {
+        btn.classList.remove('bg-archive-orange', 'text-white');
+        btn.classList.add('bg-archive-card', 'text-archive-text');
+    });
+    
+    const activeBtn = document.getElementById(`ho-tab-${hoKey}`);
+    if (activeBtn) {
+        activeBtn.classList.remove('bg-archive-card', 'text-archive-text');
+        activeBtn.classList.add('bg-archive-orange', 'text-white');
+    }
+}
+
+// ページ読み込み時にHO1を自動セット
+document.addEventListener('DOMContentLoaded', () => {
+    selectHo('ho1');
+});
     </script>
+    
     </body>
          <!-- 一時的なデータリセットボタン -->
         <button onclick="localStorage.clear(); alert('消去完了'); location.reload();" style="position:fixed; bottom:10px; right:10px; z-index:9999; background:red; color:white; padding:10px; font-weight:bold;">
